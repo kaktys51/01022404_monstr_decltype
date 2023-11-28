@@ -6,6 +6,7 @@
 
 using namespace std;
 
+template <typename Tp>
 class Monstr
 {
 protected:
@@ -16,8 +17,7 @@ protected:
 		Zombie,
 		Goblin
 	};
-	int type = Ork;
-
+	Tp type = static_cast<Tp>(Ork);
 	string name;
 
 	int health;
@@ -26,12 +26,12 @@ protected:
 	int agility;
 public:
 	Monstr(): name("default"), health(1), attack(1), attack_speed(100), agility(1){}
-	Monstr(int _type, string _name, int _health, int _attack, int _attack_speed, int _agility) : name(_name), health(_health), attack(_attack), attack_speed(_attack_speed), agility(_agility) 
+	Monstr(Tp _type, string _name, int _health, int _attack, int _attack_speed, int _agility) : name(_name), health(_health), attack(_attack), attack_speed(_attack_speed), agility(_agility) 
 	{ 
-		if (_type > Goblin || _type < Ork)
+		if (_type > static_cast<Tp>(Goblin) || _type < static_cast<Tp>(Ork))
 		{
 			cout << "Invalid Monster \"Type\"! \n Your monster type set to default " << endl;
-			type = Ork;
+			type = static_cast<Tp>(Ork);
 		}
 		else type = _type;
 	}
@@ -41,13 +41,13 @@ public:
 	{
 		switch (type)
 		{
-		case 0:
+		case static_cast<Tp>(Ork):
 			return "Ork";
-		case 1:
+		case static_cast<Tp>(Troll):
 			return "Troll";
-		case 2:
+		case static_cast<Tp>(Zombie):
 			return "Zombie";
-		case 3:
+		case static_cast<Tp>(Goblin):
 			return "Goblin";
 		
 		default:
@@ -106,14 +106,14 @@ public:
 
 int main()
 {
-	Monstr defo(0, "Ork", 85, 25, 150, 290);					//образцы стандартных типов монстров
-	Monstr deft(1, "Troll", 30, 9, 300, 500);
-	Monstr defz(2, "Zombie", 60, 15, 180, 320);
-	Monstr defg(2, "Goblin", 55, 12, 200, 300);
+	Monstr<int> defo(0, "Ork", 85, 25, 150, 290);					//образцы стандартных типов монстров
+	Monstr<int> deft(1, "Troll", 30, 9, 300, 500);
+	Monstr<int> defz(2, "Zombie", 60, 15, 180, 320);
+	Monstr<int> defg(2, "Goblin", 55, 12, 200, 300);
 
-	Monstr norz(2, "North Zombie", 80, 15, 200, 400);
+	Monstr<int> norz(2, "North Zombie", 80, 15, 200, 400);
 
-	auto atzom = Monstr{ 2, "Auto Zombie", 60, 15, 180, 320 };  //создани€ типом auto
+	auto atzom = Monstr<int>{ 2, "Auto Zombie", 60, 15, 180, 320 };  //создани€ типом auto
 
 	decltype(defg) decgob = defg;								//создани€ типом decltype
 
